@@ -36,9 +36,9 @@ public class QUASAR extends TimedRobot {
   public static RearClimber rearClimber;
   public static Vision vision;
 
-  public static int current_preset;
+  public static Compressor compressor;
 
-  private Compressor compressor;
+  public static int current_preset;
 
   @Override
   public void robotInit() {

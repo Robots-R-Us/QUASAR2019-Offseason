@@ -74,32 +74,35 @@ public class OI {
     } else if(getOperatorButton(Constants.X_BUTTON)) {
       QUASAR.current_preset = Constants.PRESET_BALL_LOW;
     }
-
+    
     populateDashboard();
   }
   //#endregion
 
   //#region OI Functions
   private void populateDashboard() {
-
+    SmartDashboard.putString("Approx. Position", parseElevatorPosition());
     SmartDashboard.putNumber("Elevator Position", QUASAR.elevator.getPosition());
-    SmartDashboard.putString("Elevator Preset", parseElevatorPosition());
-
+    SmartDashboard.putNumber("Desired Value", QUASAR.current_preset);
+    SmartDashboard.putBoolean("Elevator Switch", QUASAR.sensors.getElevatorSwitch());
+    SmartDashboard.putBoolean("Hatch Switch", QUASAR.sensors.getHatchSwitch());
+    SmartDashboard.putBoolean("Air Built", QUASAR.compressor.getPressureSwitchValue());
   }
 
   private String parseElevatorPosition() {
-
-    String toReturn = "NOT SET";
-
-    if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_LOW-100, Constants.PRESET_HATCH_LOW+100))
+    String toReturn = "UNKNOWN";
+    if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_HATCH_LOW-100, Constants.PRESET_HATCH_LOW+100))
       toReturn = "LOW HATCH";
-    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_MED-100, Constants.PRESET_HATCH_MED+100))
+    else if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_HATCH_MED-100, Constants.PRESET_HATCH_MED+100))
       toReturn = "MED HATCH";
-    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_HIGH-100, Constants.PRESET_HATCH_HIGH+100))
+    else if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_HATCH_HIGH-100, Constants.PRESET_HATCH_HIGH+100))
       toReturn = "HI HATCH";
-    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_BALL_LOW-100, Constants.PRESET_BALL_LOW+100))
+    else if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_BALL_LOW-100, Constants.PRESET_BALL_LOW+100))
       toReturn = "LOW CARGO";
-
+    else if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_BALL_MED-100, Constants.PRESET_BALL_MED+100))
+      toReturn = "MED CARGO";
+    else if(Utilities.within(QUASAR.elevator.getPosition(), Constants.PRESET_BALL_HIGH-100, Constants.PRESET_BALL_HIGH+100))
+      toReturn = "HI CARGO";
     return toReturn;
   }
 
