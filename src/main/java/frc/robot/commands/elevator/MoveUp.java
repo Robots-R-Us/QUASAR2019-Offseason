@@ -16,7 +16,7 @@ import frc.robot.QUASAR;
  *   Move Up
  * 
  *   If the driver tries to move higher than
- *   our upper limit. the elevator stops
+ *   our upper limit, the elevator stops
  */
 public class MoveUp extends Command {
 
