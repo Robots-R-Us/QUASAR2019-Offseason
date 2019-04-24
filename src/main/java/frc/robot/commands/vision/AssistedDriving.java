@@ -11,7 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.QUASAR;
 
+/*
+ *   Vision / Drive Train Command
+ *   Assisted Driving
+ * 
+ *   Approaches detected target and stops
+ */
 public class AssistedDriving extends Command {
+  
   public AssistedDriving() {
     requires(QUASAR.vision);
     requires(QUASAR.driveTrain);
@@ -19,7 +26,7 @@ public class AssistedDriving extends Command {
 
   @Override
   protected void initialize() {
-    QUASAR.driveTrain.robotDrive(0, 0, 0); // stop before we run
+    QUASAR.driveTrain.stop();
   }
 
   @Override
@@ -27,7 +34,6 @@ public class AssistedDriving extends Command {
     QUASAR.vision.adjustSteering();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     if(QUASAR.oi.getDriverButton(Constants.RS_PUSH))
@@ -35,16 +41,13 @@ public class AssistedDriving extends Command {
     else return true;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
-    QUASAR.driveTrain.robotDrive(0, 0, 0); // stop before we run
+    QUASAR.driveTrain.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    QUASAR.driveTrain.robotDrive(0, 0, 0); // stop before we run
+    QUASAR.driveTrain.stop();
   }
 }

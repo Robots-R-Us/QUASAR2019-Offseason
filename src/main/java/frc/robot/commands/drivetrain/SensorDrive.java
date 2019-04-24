@@ -5,34 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.QUASAR;
 
-public class ZeroPosition extends Command {
-  
-  public ZeroPosition() {
-    requires(QUASAR.elevator);
+public class SensorDrive extends Command {
+
+  public SensorDrive() {
+    requires(QUASAR.sensors);
+    requires(QUASAR.driveTrain);
+  }
+
+  @Override
+  protected void initialize() {
+    QUASAR.driveTrain.stop();
   }
 
   @Override
   protected void execute() {
-    QUASAR.elevator.zero();
+    if(QUASAR.sensors.getFloorSensorFront() || QUASAR.sensors.getFloorSensorRear()) {
+      QUASAR.driveTrain.robotDrive(0.33, 0, 1);
+    }
   }
 
   @Override
   protected boolean isFinished() {
-    return false;
+    if(QUASAR.sensors.getFloorSensorFront() || QUASAR.sensors.getFloorSensorRear()) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @Override
   protected void end() {
-    QUASAR.elevator.stop();
+    QUASAR.driveTrain.stop();
   }
 
   @Override
   protected void interrupted() {
-    QUASAR.elevator.stop();
+    QUASAR.driveTrain.stop();
   }
 }

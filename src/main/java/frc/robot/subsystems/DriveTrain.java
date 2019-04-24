@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+//#region Imports
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.RobotDrive;
+//#endregion
 
 public class DriveTrain extends Subsystem {
 
@@ -21,6 +23,7 @@ public class DriveTrain extends Subsystem {
   private SpeedControllerGroup leftTank, rightTank;
   public DifferentialDrive driveBase;
 
+  //#region Subsystem Constructor
   public DriveTrain() {
     fL = new WPI_TalonSRX(Constants.LEFT_FRONT_MOTOR);
     rL = new WPI_TalonSRX(Constants.LEFT_REAR_MOTOR);
@@ -35,7 +38,9 @@ public class DriveTrain extends Subsystem {
     driveBase.setSafetyEnabled(true);
     driveBase.setExpiration(.1);
   }
+  //#endregion
 
+  //#region Subsystem Functions
   public void robotDrive(double speed, double rotation, double modifier) {
     driveBase.arcadeDrive(-(speed)*modifier, (rotation)*modifier);
   }
@@ -43,6 +48,7 @@ public class DriveTrain extends Subsystem {
   public void stop() {
     driveBase.arcadeDrive(0, 0);
   }
+  //#endregion
 
   @Override
   public void initDefaultCommand() {

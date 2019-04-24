@@ -11,40 +11,44 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.QUASAR;
 
+/*
+ *   Drive Train Command
+ *   Robot Drive
+ * 
+ *   There are three modes:
+ *   Default: modified speed drive
+ *   LS: full speed drive
+ *   Select: modified speed reverse drive
+ */
 public class RobotDrive extends Command {
 
   public RobotDrive() {
     requires(QUASAR.driveTrain);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double speed = QUASAR.oi.getDriverAxis(Constants.LEFT_Y);
     double rotation = QUASAR.oi.getDriverAxis(Constants.LEFT_X);
 
     if(QUASAR.oi.getDriverButton(Constants.LEFT_SHOULDER)) {
-      QUASAR.driveTrain.robotDrive(speed, rotation, 1.0); // full speed
+      QUASAR.driveTrain.robotDrive(speed, rotation, 1.0);
     } else if(QUASAR.oi.getDriverButton(Constants.SELECT_BUTTON)) {
-      QUASAR.driveTrain.robotDrive(-speed, rotation, 0.66); // reverse drive at 2/3 speed
+      QUASAR.driveTrain.robotDrive(-speed, rotation, Constants.ROBOT_DRIVE_MODIFIER);
     } else {
-      QUASAR.driveTrain.robotDrive(speed, rotation, 0.66); // drive at 2/3 speed
+      QUASAR.driveTrain.robotDrive(speed, rotation, Constants.ROBOT_DRIVE_MODIFIER);
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     QUASAR.driveTrain.stop();

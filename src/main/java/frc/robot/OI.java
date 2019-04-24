@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+//#region Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -20,49 +21,86 @@ import frc.robot.commands.rearhatch.ForceClose;
 import frc.robot.commands.rearhatch.SendOut;
 import frc.robot.commands.vision.AssistedDriving;
 import frc.robot.commands.vision.ToggleVisionAssist;
+import util.Utilities;
 import util.controls.AxisButton;
+//#endregion
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
 
+  //#region OI Declarations
   private Joystick driver = new Joystick(Constants.DRIVER_CONTROLLER);
   private Joystick operator = new Joystick(Constants.OPERATOR_CONTROLLER);
 
   private Button driver_A = new JoystickButton(driver, Constants.A_BUTTON);
   private Button driver_X = new JoystickButton(driver, Constants.X_BUTTON);
   private Button driver_START = new JoystickButton(driver, Constants.START_BUTTON);
-  private Button driver_SELECT = new JoystickButton(driver, Constants.SELECT_BUTTON);
   private Button driver_RS_PUSH = new JoystickButton(driver, Constants.RS_PUSH);
 
-  private Button operator_LeftShoulder = new JoystickButton(operator, Constants.LEFT_SHOULDER);
+  private Button driver_LeftTrigger = new JoystickButton(driver, Constants.LEFT_TRIGGER);
+  private Button driver_RightTrigger = new AxisButton(driver, Constants.RIGHT_TRIGGER);
 
-  private Button operator_LeftTrigger = new AxisButton(operator, 2);
-  private Button operator_RightTrigger = new AxisButton(operator, 3);
+  private Button operator_LeftTrigger = new AxisButton(operator, Constants.LEFT_TRIGGER);
+  private Button operator_RightTrigger = new AxisButton(operator, Constants.RIGHT_TRIGGER);
+  //#endregion
 
+  //#region OI Constructor
+  /*  Reminder:
+   *  Driver LEFT SHOULDER & Driver SELECT are
+   *  already in use by the robotdrive command
+   *  Check the command code for more info
+   * 
+   *  Operator A,B,Y,X are also elevator presets
+   */
   public OI() {
     driver_A.whileHeld(new MoveDown());
     driver_X.whileHeld(new MoveUp());
-    driver_START.whenPressed(new ToggleArms());
-    driver_SELECT.whenPressed(new ToggleVisionAssist());
+    driver_START.whenPressed(new ToggleVisionAssist());
     driver_RS_PUSH.whenPressed(new AssistedDriving());
 
+    driver_LeftTrigger.whenPressed(new SendOut());
+    driver_LeftTrigger.whenReleased(new ForceClose());
 
-    operator_LeftShoulder.whenPressed(new SendOut());
-    operator_LeftShoulder.whenReleased(new ForceClose());
+    driver_RightTrigger.whenPressed(new ToggleArms());
 
     operator_LeftTrigger.whenPressed(new RearClimb());
     operator_RightTrigger.whenPressed(new FrontClimb());
 
-    this.populateDashboard();
-  }
+    if(getOperatorButton(Constants.A_BUTTON)) {
+      QUASAR.current_preset = Constants.PRESET_HATCH_LOW;
+    } else if(getOperatorButton(Constants.B_BUTTON)) {
+      QUASAR.current_preset = Constants.PRESET_HATCH_MED;
+    } else if(getOperatorButton(Constants.Y_BUTTON)) {
+      QUASAR.current_preset = Constants.PRESET_HATCH_HIGH;
+    } else if(getOperatorButton(Constants.X_BUTTON)) {
+      QUASAR.current_preset = Constants.PRESET_BALL_LOW;
+    }
 
+    populateDashboard();
+  }
+  //#endregion
+
+  //#region OI Functions
   private void populateDashboard() {
 
     SmartDashboard.putNumber("Elevator Position", QUASAR.elevator.getPosition());
+    SmartDashboard.putString("Elevator Preset", parseElevatorPosition());
 
+  }
+
+  private String parseElevatorPosition() {
+
+    String toReturn = "NOT SET";
+
+    if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_LOW-100, Constants.PRESET_HATCH_LOW+100))
+      toReturn = "LOW HATCH";
+    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_MED-100, Constants.PRESET_HATCH_MED+100))
+      toReturn = "MED HATCH";
+    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_HATCH_HIGH-100, Constants.PRESET_HATCH_HIGH+100))
+      toReturn = "HI HATCH";
+    else if(Utilities.within(QUASAR.current_preset, Constants.PRESET_BALL_LOW-100, Constants.PRESET_BALL_LOW+100))
+      toReturn = "LOW CARGO";
+
+    return toReturn;
   }
 
   public double getDriverAxis(int axis) {
@@ -80,4 +118,5 @@ public class OI {
   public boolean getDriverButton(int button) {
     return driver.getRawButton(button);
   }
+  //#endregion
 }

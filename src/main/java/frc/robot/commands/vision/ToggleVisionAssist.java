@@ -10,6 +10,12 @@ package frc.robot.commands.vision;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.QUASAR;
 
+/*
+ *   Vision Command
+ *   Toggle Vision Assist
+ * 
+ *   Turns the camera LED on or off
+ */
 public class ToggleVisionAssist extends Command {
 
   private boolean command_ran = false;
@@ -18,14 +24,12 @@ public class ToggleVisionAssist extends Command {
     requires(QUASAR.vision);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     QUASAR.vision.toggleMode();
-    this.command_ran = true;
+    command_ran = true;
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return command_ran;

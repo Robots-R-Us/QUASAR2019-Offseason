@@ -10,6 +10,13 @@ package frc.robot.commands.arms;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.QUASAR;
 
+/*
+ *   Arms Command
+ *   Toggle Arms
+ * 
+ *   Toggles open or closed depending
+ *   on the state detected
+ */
 public class ToggleArms extends Command {
 
   private boolean command_ran = false;
@@ -31,7 +38,6 @@ public class ToggleArms extends Command {
 
   @Override
   protected boolean isFinished() {
-    if(command_ran) return true;
-    else return false;
+    return command_ran;
   }
 }

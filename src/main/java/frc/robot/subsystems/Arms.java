@@ -7,19 +7,24 @@
 
 package frc.robot.subsystems;
 
+//#region Imports
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
+//#endregion
 
 public class Arms extends Subsystem {
 
   public boolean isClosed;
   private Solenoid armsSolenoid;
 
+  //#region Subsystem Constructor
   public Arms() {
     armsSolenoid = new Solenoid(Constants.ARMS_SOLENOID);
   }
+  //#endregion
 
+  //#region Subsystem Functions
   public void openArms() {
     armsSolenoid.set(true);
     isClosed = false;
@@ -29,6 +34,7 @@ public class Arms extends Subsystem {
     armsSolenoid.set(false);
     isClosed = true;
   }
+  //#endregion
 
   @Override
   public void initDefaultCommand() {

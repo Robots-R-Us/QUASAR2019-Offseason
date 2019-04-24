@@ -7,14 +7,14 @@
 
 package frc.robot.subsystems;
 
+//#region Imports
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.QUASAR;
-import util.Log;
-import util.MessageType;
+//#endregion
 
 public class Vision extends Subsystem {
 
@@ -22,14 +22,20 @@ public class Vision extends Subsystem {
   private NetworkTableEntry tx, tv, thor;
   private NetworkTableEntry camMode, ledMode;
 
+  //#region Subsystem Constructor
   public Vision() {
     nt = NetworkTableInstance.getDefault().getTable(Constants.CAMERA_NAME);
-    this.updateNetworkTables();
+    updateNetworkTables();
   }
+  //#endregion
 
+  //#region Subsystem Functions
   public void updateNetworkTables() {
-    tx = nt.getEntry("tx"); tv = nt.getEntry("tv"); thor = nt.getEntry("thor");
-    camMode = nt.getEntry("camMode"); ledMode = nt.getEntry("ledMode");
+    tx = nt.getEntry("tx");
+    tv = nt.getEntry("tv");
+    thor = nt.getEntry("thor");
+    camMode = nt.getEntry("camMode");
+    ledMode = nt.getEntry("ledMode");
   }
 
   public void adjustSteering() {
@@ -99,17 +105,15 @@ public class Vision extends Subsystem {
   }
 
   public void enable() {
-    try { camMode.setValue(0); ledMode.setValue(0); }
-    catch(Exception ex) { Log.WriteLine(MessageType.ERROR, ex.toString()); }
+    camMode.setValue(0); ledMode.setValue(0);
   }
 
   public void disable() {
-    try { camMode.setValue(1); ledMode.setValue(1); }
-    catch(Exception ex) { Log.WriteLine(MessageType.ERROR, ex.toString()); }
+    camMode.setValue(1); ledMode.setValue(1);
   }
+  //#endregion
 
   @Override
   public void initDefaultCommand() {
-    
   }
 }

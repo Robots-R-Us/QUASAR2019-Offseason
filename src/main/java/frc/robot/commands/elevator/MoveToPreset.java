@@ -8,38 +8,32 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Constants;
 import frc.robot.QUASAR;
+import util.Utilities;
 
 /*
  *   Elevator Command
- *   Move Up
+ *   Move To Preset
  * 
- *   If the driver tries to move higher than
- *   our upper limit. the elevator stops
+ *   Moves the elevator to a preset
+ *   position tracked via encoder
  */
-public class MoveUp extends Command {
-
-  private boolean command_ran = false;
-
-  public MoveUp() {
+public class MoveToPreset extends Command {
+  
+  public MoveToPreset() {
     requires(QUASAR.elevator);
   }
 
   @Override
   protected void execute() {
-    if(QUASAR.elevator.getPosition() >= Constants.PRESET_BALL_HIGH) {
-      command_ran = true;
-    } else {
-      QUASAR.elevator.up();
-    }
+    QUASAR.elevator.moveToPreset(QUASAR.current_preset);
   }
 
   @Override
   protected boolean isFinished() {
-    if(QUASAR.oi.getDriverButton(Constants.X_BUTTON)) return false;
-    else if(command_ran) return true;
-    else return true;
+    if(Utilities.within(QUASAR.elevator.getPosition(),QUASAR.current_preset-100,QUASAR.current_preset+100))
+      return true;
+    else return false;
   }
 
   @Override

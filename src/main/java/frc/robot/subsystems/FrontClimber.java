@@ -7,18 +7,23 @@
 
 package frc.robot.subsystems;
 
+//#region Imports
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
+//#endregion
 
 public class FrontClimber extends Subsystem {
   
   private Solenoid frontClimber;
 
+  //#region Subsystem Constructor
   public FrontClimber() {
     frontClimber = new Solenoid(Constants.CLIMBER_FRONT);
   }
+  //#endregion
 
+  //#region Subsystem Functions
   public boolean get() {
     return frontClimber.get();
   }
@@ -30,9 +35,9 @@ public class FrontClimber extends Subsystem {
   public void extend() {
     frontClimber.set(true);
   }
+  //#endregion
 
   @Override
   public void initDefaultCommand() {
-
   }
 }

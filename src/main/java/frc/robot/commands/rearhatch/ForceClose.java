@@ -10,7 +10,15 @@ package frc.robot.commands.rearhatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.QUASAR;
 
+/*
+ *   Rear Hatch Command
+ *   Force Close
+ * 
+ *   Overrides the limit switch and closes
+ *   the rear hatch mechanism
+ */
 public class ForceClose extends Command {
+  
   public ForceClose() {
     requires(QUASAR.rearHatch);
   }

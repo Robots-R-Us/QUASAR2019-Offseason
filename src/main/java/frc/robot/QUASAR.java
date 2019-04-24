@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+//#region Imports
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,14 +22,8 @@ import frc.robot.subsystems.Vision;
 
 import util.Log;
 import util.MessageType;
+//#endregion
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class QUASAR extends TimedRobot {
 
   public static OI oi;
@@ -41,12 +36,14 @@ public class QUASAR extends TimedRobot {
   public static RearClimber rearClimber;
   public static Vision vision;
 
+  public static int current_preset;
+
   private Compressor compressor;
 
   @Override
   public void robotInit() {
 
-    Log.WriteLine(MessageType.INFO, "Initializing robot...");
+    Log.WriteLine(MessageType.INFO, "Waking up...");
 
     try {
 
@@ -69,6 +66,7 @@ public class QUASAR extends TimedRobot {
     }
 
     compressor.start();
+    Log.WriteLine(MessageType.INFO, "Hello there!");
   }
 
   @Override
@@ -78,6 +76,7 @@ public class QUASAR extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    Log.WriteLine(MessageType.INFO, "Help! I've been disabled!");
   }
 
   @Override
@@ -87,12 +86,12 @@ public class QUASAR extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
+    Log.WriteLine(MessageType.INFO, "I'm ready to play!");
   }
 
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    teleopPeriodic();
   }
 
   @Override

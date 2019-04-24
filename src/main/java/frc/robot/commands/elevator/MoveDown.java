@@ -12,7 +12,16 @@ import frc.robot.Constants;
 import frc.robot.QUASAR;
 import util.*;
 
+/*
+ *   Elevator Command
+ *   Move Down
+ * 
+ *   If the limit switch is hit, the elevator
+ *   encoder position is set to zero.
+ */
 public class MoveDown extends Command {
+
+  private boolean command_ran = false;
 
   public MoveDown() {
     requires(QUASAR.elevator);
@@ -21,11 +30,9 @@ public class MoveDown extends Command {
   @Override
   protected void execute() {
     if(QUASAR.sensors.getElevatorSwitch()) {
-
-      Log.WriteLine(MessageType.INFO, "Elevator switched! Position set to zero.");
-
-      QUASAR.elevator.stop();
+      Log.WriteLine(MessageType.INFO, "I've hit the bottom of the elevator! Zeroing the encoder...");
       QUASAR.elevator.zero();
+      command_ran = true;
     } else {
       QUASAR.elevator.down();
     }
@@ -33,9 +40,9 @@ public class MoveDown extends Command {
 
   @Override
   protected boolean isFinished() {
-    if(QUASAR.oi.getDriverButton(Constants.A_BUTTON)) {
-      return false;
-    } else { return true; }
+    if(QUASAR.oi.getDriverButton(Constants.A_BUTTON)) return false;
+    else if(command_ran) return true;
+    else return true;
   }
 
   @Override

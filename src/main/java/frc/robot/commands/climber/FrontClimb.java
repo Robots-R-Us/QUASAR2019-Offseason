@@ -8,24 +8,29 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 import frc.robot.QUASAR;
 
+/*
+ *   Climber Command
+ *   Front Climb
+ * 
+ *   Extends when called, retracts afterwards
+ */
 public class FrontClimb extends Command {
 
   public FrontClimb() {
     requires(QUASAR.frontClimber);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     QUASAR.frontClimber.extend();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(QUASAR.oi.getOperatorAxis(3) > 0.15) {
+    if(QUASAR.oi.getOperatorAxis(3) > Constants.AXIS_THRESHOLD) {
       return false;
     } else {
       return true;

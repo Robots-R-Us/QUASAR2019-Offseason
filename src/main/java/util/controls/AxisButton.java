@@ -2,6 +2,7 @@ package util.controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import frc.robot.Constants;
 
 public class AxisButton extends Button {
 
@@ -15,6 +16,6 @@ public class AxisButton extends Button {
 
     @Override
     public boolean get() {
-        return j.getRawAxis(a) > 0.15;
+        return j.getRawAxis(a) > Constants.AXIS_THRESHOLD;
     }
 }

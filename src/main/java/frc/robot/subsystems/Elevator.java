@@ -7,18 +7,22 @@
 
 package frc.robot.subsystems;
 
+//#region Imports
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
+//#endregion
 
 /**
  * Add your docs here.
  */
 public class Elevator extends Subsystem {
+
   private WPI_TalonSRX elevatorMotor;
 
+  //#region Subsystem Constructor
   public Elevator() {
     elevatorMotor = new WPI_TalonSRX(Constants.ELEVATOR_MOTOR);
 
@@ -50,7 +54,9 @@ public class Elevator extends Subsystem {
 
     elevatorMotor.setSelectedSensorPosition(absolutePosition, Constants.PID_ID, Constants.TIMEOUT_MS);
   }
+  //#endregion
 
+  //#region Subsystem Functions
   public int getPosition() {
     return elevatorMotor.getSelectedSensorPosition();
   }
@@ -74,6 +80,7 @@ public class Elevator extends Subsystem {
   public void moveToPreset(int preset) {
     elevatorMotor.setSelectedSensorPosition(preset);
   }
+  //#endregion
 
   @Override
   public void initDefaultCommand() {

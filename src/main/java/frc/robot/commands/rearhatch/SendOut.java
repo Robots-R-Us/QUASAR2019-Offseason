@@ -10,6 +10,13 @@ package frc.robot.commands.rearhatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.QUASAR;
 
+/*
+ *   Rear Hatch Command
+ *   Send Out
+ * 
+ *   Automatically secures hatch panel
+ *   if one is detected being held
+ */
 public class SendOut extends Command {
 
   public SendOut() {
