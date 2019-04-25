@@ -31,7 +31,7 @@ public class MoveToPreset extends Command {
 
   @Override
   protected boolean isFinished() {
-    if(Utilities.within(QUASAR.elevator.getPosition(),QUASAR.current_preset-100,QUASAR.current_preset+100))
+    if(Utilities.within(QUASAR.elevator.getPosition(),QUASAR.current_preset-1000,QUASAR.current_preset+1000))
       return true;
     else return false;
   }

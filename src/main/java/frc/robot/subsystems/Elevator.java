@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 //#region Imports
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -78,7 +79,7 @@ public class Elevator extends Subsystem {
   }
 
   public void moveToPreset(int preset) {
-    elevatorMotor.setSelectedSensorPosition(preset);
+    elevatorMotor.set(ControlMode.Position, preset);
   }
   //#endregion
 

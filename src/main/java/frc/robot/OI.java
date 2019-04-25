@@ -16,6 +16,7 @@ import frc.robot.commands.arms.ToggleArms;
 import frc.robot.commands.climber.FrontClimb;
 import frc.robot.commands.climber.RearClimb;
 import frc.robot.commands.elevator.MoveDown;
+import frc.robot.commands.elevator.MoveToPreset;
 import frc.robot.commands.elevator.MoveUp;
 import frc.robot.commands.rearhatch.ForceClose;
 import frc.robot.commands.rearhatch.SendOut;
@@ -36,11 +37,14 @@ public class OI {
   private Button driver_START = new JoystickButton(driver, Constants.START_BUTTON);
   private Button driver_RS_PUSH = new JoystickButton(driver, Constants.RS_PUSH);
 
-  private Button driver_LeftTrigger = new JoystickButton(driver, Constants.LEFT_TRIGGER);
+  private Button driver_LeftTrigger = new AxisButton(driver, Constants.LEFT_TRIGGER);
   private Button driver_RightTrigger = new AxisButton(driver, Constants.RIGHT_TRIGGER);
 
   private Button operator_LeftTrigger = new AxisButton(operator, Constants.LEFT_TRIGGER);
   private Button operator_RightTrigger = new AxisButton(operator, Constants.RIGHT_TRIGGER);
+
+  private Button operator_START = new JoystickButton(operator, Constants.START_BUTTON);
+
   //#endregion
 
   //#region OI Constructor
@@ -52,8 +56,11 @@ public class OI {
    *  Operator A,B,Y,X are also elevator presets
    */
   public OI() {
-    driver_A.whileHeld(new MoveDown());
+
     driver_X.whileHeld(new MoveUp());
+    driver_A.whileHeld(new MoveDown());
+    operator_START.whenPressed(new MoveToPreset());
+
     driver_START.whenPressed(new ToggleVisionAssist());
     driver_RS_PUSH.whenPressed(new AssistedDriving());
 
@@ -64,7 +71,22 @@ public class OI {
 
     operator_LeftTrigger.whenPressed(new RearClimb());
     operator_RightTrigger.whenPressed(new FrontClimb());
+    
+    populateDashboard();
 
+  }
+  //#endregion
+
+  //#region OI Functions
+  public void populateDashboard() {
+    SmartDashboard.putString("Approx. Position", parseElevatorPosition());
+    SmartDashboard.putNumber("Elevator Position", QUASAR.elevator.getPosition());
+    SmartDashboard.putNumber("Desired Value", QUASAR.current_preset);
+    SmartDashboard.putBoolean("Elevator Switch", QUASAR.sensors.getElevatorSwitch());
+    SmartDashboard.putBoolean("Hatch Switch", QUASAR.sensors.getHatchSwitch());
+  }
+
+  public void updateCurrentPreset() {
     if(getOperatorButton(Constants.A_BUTTON)) {
       QUASAR.current_preset = Constants.PRESET_HATCH_LOW;
     } else if(getOperatorButton(Constants.B_BUTTON)) {
@@ -74,19 +96,6 @@ public class OI {
     } else if(getOperatorButton(Constants.X_BUTTON)) {
       QUASAR.current_preset = Constants.PRESET_BALL_LOW;
     }
-    
-    populateDashboard();
-  }
-  //#endregion
-
-  //#region OI Functions
-  private void populateDashboard() {
-    SmartDashboard.putString("Approx. Position", parseElevatorPosition());
-    SmartDashboard.putNumber("Elevator Position", QUASAR.elevator.getPosition());
-    SmartDashboard.putNumber("Desired Value", QUASAR.current_preset);
-    SmartDashboard.putBoolean("Elevator Switch", QUASAR.sensors.getElevatorSwitch());
-    SmartDashboard.putBoolean("Hatch Switch", QUASAR.sensors.getHatchSwitch());
-    SmartDashboard.putBoolean("Air Built", QUASAR.compressor.getPressureSwitchValue());
   }
 
   private String parseElevatorPosition() {

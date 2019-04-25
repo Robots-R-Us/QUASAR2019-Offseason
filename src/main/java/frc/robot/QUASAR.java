@@ -55,22 +55,24 @@ public class QUASAR extends TimedRobot {
       frontClimber = new FrontClimber();
       rearClimber = new RearClimber();
       vision = new Vision();
-      
-      oi = new OI();
 
       compressor = new Compressor(Constants.COMPRESSOR_PORT);
+
+      oi = new OI();
 
     } catch (Exception ex) {
       Log.WriteLine(MessageType.ERROR, ex.toString());
 
     }
 
-    compressor.start();
     Log.WriteLine(MessageType.INFO, "Hello there!");
   }
 
   @Override
   public void robotPeriodic() {
+
+    oi.populateDashboard();
+    oi.updateCurrentPreset();
 
   }
 

@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.QUASAR;
 
+import util.Log;
+import util.MessageType;
+
 /*
  *   Elevator Command
  *   Move Up
@@ -29,6 +32,7 @@ public class MoveUp extends Command {
   @Override
   protected void execute() {
     if(QUASAR.elevator.getPosition() >= Constants.PRESET_BALL_HIGH) {
+      Log.WriteLine(MessageType.INFO, "I can't reach any higher, boss!");
       command_ran = true;
     } else {
       QUASAR.elevator.up();
