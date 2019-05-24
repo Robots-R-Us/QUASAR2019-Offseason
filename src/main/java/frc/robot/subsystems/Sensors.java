@@ -32,7 +32,9 @@ public class Sensors extends Subsystem {
   }
 
   public boolean getHatchSwitch() {
-    return hatch_limitSwitch.get();
+    if(hatch_limitSwitch.get()) {
+      return false;
+    } else return true;
   }
 
   public boolean getFloorSensorFront() {

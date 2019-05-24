@@ -20,6 +20,7 @@ import frc.robot.commands.elevator.MoveToPreset;
 import frc.robot.commands.elevator.MoveUp;
 import frc.robot.commands.rearhatch.ForceClose;
 import frc.robot.commands.rearhatch.SendOut;
+import frc.robot.commands.rearhatch.SendOutHeld;
 import frc.robot.commands.vision.AssistedDriving;
 import frc.robot.commands.vision.ToggleVisionAssist;
 import util.Utilities;
@@ -37,11 +38,13 @@ public class OI {
   private Button driver_START = new JoystickButton(driver, Constants.START_BUTTON);
   private Button driver_RS_PUSH = new JoystickButton(driver, Constants.RS_PUSH);
 
-  private Button driver_LeftTrigger = new AxisButton(driver, Constants.LEFT_TRIGGER);
   private Button driver_RightTrigger = new AxisButton(driver, Constants.RIGHT_TRIGGER);
 
   private Button operator_LeftTrigger = new AxisButton(operator, Constants.LEFT_TRIGGER);
   private Button operator_RightTrigger = new AxisButton(operator, Constants.RIGHT_TRIGGER);
+
+  private Button operator_LeftShoulder = new JoystickButton(operator, Constants.LEFT_SHOULDER);
+  private Button operator_RightShoulder = new JoystickButton(operator, Constants.RIGHT_SHOULDER);
 
   private Button operator_START = new JoystickButton(operator, Constants.START_BUTTON);
 
@@ -64,8 +67,10 @@ public class OI {
     driver_START.whenPressed(new ToggleVisionAssist());
     driver_RS_PUSH.whenPressed(new AssistedDriving());
 
-    driver_LeftTrigger.whenPressed(new SendOut());
-    driver_LeftTrigger.whenReleased(new ForceClose());
+    operator_LeftShoulder.whenPressed(new SendOut());
+    operator_LeftShoulder.whenReleased(new ForceClose());
+    operator_RightShoulder.whenPressed(new SendOutHeld());
+    operator_RightShoulder.whenReleased(new ForceClose());
 
     driver_RightTrigger.whenPressed(new ToggleArms());
 

@@ -7,11 +7,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 //#region Imports
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 //#endregion
@@ -21,7 +20,7 @@ import frc.robot.Constants;
  */
 public class Elevator extends Subsystem {
 
-  private WPI_TalonSRX elevatorMotor;
+  public WPI_TalonSRX elevatorMotor;
 
   //#region Subsystem Constructor
   public Elevator() {
@@ -33,7 +32,7 @@ public class Elevator extends Subsystem {
     elevatorMotor.setSensorPhase(Constants.SENSOR_PHASE);
     elevatorMotor.setInverted(Constants.SENSOR_PHASE);
 
-    elevatorMotor.configNominalOutputForward(0, Constants.TIMEOUT_MS);
+    /*elevatorMotor.configNominalOutputForward(0, Constants.TIMEOUT_MS);
     elevatorMotor.configNominalOutputReverse(0, Constants.TIMEOUT_MS);
 
     elevatorMotor.configPeakOutputForward(1, Constants.TIMEOUT_MS);
@@ -53,7 +52,7 @@ public class Elevator extends Subsystem {
     if (Constants.SENSOR_PHASE) { absolutePosition *= -1; }
     if (Constants.PID_INVERT) { absolutePosition *= -1; }
 
-    elevatorMotor.setSelectedSensorPosition(absolutePosition, Constants.PID_ID, Constants.TIMEOUT_MS);
+    elevatorMotor.setSelectedSensorPosition(absolutePosition, Constants.PID_ID, Constants.TIMEOUT_MS);*/
   }
   //#endregion
 
@@ -75,6 +74,7 @@ public class Elevator extends Subsystem {
   }
 
   public void zero() {
+    stop();
     elevatorMotor.setSelectedSensorPosition(0);
   }
 

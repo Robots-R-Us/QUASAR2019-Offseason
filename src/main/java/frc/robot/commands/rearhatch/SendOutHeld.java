@@ -9,6 +9,7 @@ package frc.robot.commands.rearhatch;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 import frc.robot.QUASAR;
 
 /*
@@ -18,26 +19,23 @@ import frc.robot.QUASAR;
  *   Automatically secures hatch panel
  *   if one is detected being held
  */
-public class SendOut extends Command {
+public class SendOutHeld extends Command {
 
-  public SendOut() {
+  public SendOutHeld() {
     requires(QUASAR.rearHatch);
   }
 
   @Override
   protected void execute() {
-    QUASAR.rearHatch.hatchRelease();
-    Timer.delay(0.2);
     QUASAR.rearHatch.kickOut();
+    Timer.delay(0.2);
+    QUASAR.rearHatch.hatchRelease();
   }
 
   @Override
   protected boolean isFinished() {
-    if(QUASAR.sensors.getHatchSwitch()) {
-      return true;
-    } else {
-      return false;
-    }
+    if(!QUASAR.oi.getOperatorButton(Constants.RIGHT_SHOULDER)) return true;
+    else return false;
   }
 
   @Override

@@ -8,9 +8,12 @@
 package frc.robot;
 
 //#region Imports
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
 import frc.robot.subsystems.Arms;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -40,6 +43,9 @@ public class QUASAR extends TimedRobot {
 
   public static int current_preset;
 
+  private CameraServer camServer;
+  private UsbCamera usbCamera;
+
   @Override
   public void robotInit() {
 
@@ -57,6 +63,12 @@ public class QUASAR extends TimedRobot {
       vision = new Vision();
 
       compressor = new Compressor(Constants.COMPRESSOR_PORT);
+
+      // initiate rear camera
+      camServer = CameraServer.getInstance();
+      usbCamera = new UsbCamera("cam0", 0);
+      usbCamera.setFPS(10); usbCamera.setResolution(320, 240);
+      camServer.startAutomaticCapture(usbCamera);
 
       oi = new OI();
 

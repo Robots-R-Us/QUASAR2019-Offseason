@@ -40,9 +40,11 @@ public class MoveDown extends Command {
 
   @Override
   protected boolean isFinished() {
-    if(QUASAR.oi.getDriverButton(Constants.A_BUTTON)) return false;
-    else if(command_ran) return true;
-    else return true;
+    if(command_ran && !QUASAR.oi.getDriverButton(Constants.A_BUTTON)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

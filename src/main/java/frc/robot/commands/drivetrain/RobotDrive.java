@@ -33,7 +33,7 @@ public class RobotDrive extends Command {
 
     if(QUASAR.oi.getDriverButton(Constants.LEFT_SHOULDER)) {
       QUASAR.driveTrain.robotDrive(speed, rotation, 1.0);
-    } else if(QUASAR.oi.getDriverButton(Constants.SELECT_BUTTON)) {
+    } else if(QUASAR.oi.getDriverButton(Constants.RIGHT_SHOULDER)) {
       QUASAR.driveTrain.robotDrive(-speed, rotation, Constants.ROBOT_DRIVE_MODIFIER);
     } else {
       QUASAR.driveTrain.robotDrive(speed, rotation, Constants.ROBOT_DRIVE_MODIFIER);

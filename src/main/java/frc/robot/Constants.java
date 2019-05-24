@@ -15,7 +15,7 @@ public class Constants {
   public static int LEFT_REAR_MOTOR = 4;
   public static  int RIGHT_FRONT_MOTOR = 0;
   public static int RIGHT_REAR_MOTOR = 1;
-  public static double ROBOT_DRIVE_MODIFIER = 0.66;
+  public static double ROBOT_DRIVE_MODIFIER = 0.77;
   //#endregion
   //#region Elevator Constants
   public static int ELEVATOR_MOTOR = 2;
